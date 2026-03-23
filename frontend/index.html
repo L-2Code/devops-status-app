@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Status App</title>
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 16px;
+            line-height: 1.5;
+        }
+
+        card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .status {
+            font-weight: bold;
+            margin-top: 12px;
+        }
+   </style>
+</head>
+<body>
+    <h1>DevOps Status App</h1>
+    <div class="card">
+        <p>Kleines Demo-Projekt mit Node.js, Docker und CI/CD.</p>
+        <p class="status" id="status">Lade Status...</p>
+    </div>
+
+    <script>
+        async function fetchStatus() {
+            try {
+                const response = await fetch('http://localhost:3000/api/status');
+                const data = await response.json();
+
+                document.getElementById('status').textContent = `Aktueller Status: ${data.status} | Nachricht: ${data.message}`;
+            } catch (error) {
+                document.getElementById('status').textContent = 'Fehler beim Laden des Backend-Status';
+            }
+        }
+
+        // Initialer Aufruf zum Laden des Status
+        fetchStatus();
+
+        // Aktualisiere den Status alle 30 Sekunden
+        setInterval(fetchStatus, 30000);
+    </script>
+</body>
+</html>

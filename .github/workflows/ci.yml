@@ -1,6 +1,6 @@
 name: CI Pipeline
 
-# Zwingt GitHub Actions Node 24 zu nutzen
+# Zwingt GitHub Actions Node 24 statt aktuell 20 zu nutzen
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 

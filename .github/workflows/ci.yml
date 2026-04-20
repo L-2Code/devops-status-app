@@ -41,31 +41,44 @@ jobs:
         run: npm test
 
   docker-smoke-test:
-    runs-on: ubuntu-latest
-    needs: backend-checks  # läuft erst nach erfolgreichem ersten Job
+  runs-on: ubuntu-latest
+  needs: backend-checks
 
-    # Repo auschecken
-    steps:  
-      - name: Checkout
-        uses: actions/checkout@v4
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      # Docker Container bauen
-      - name: Build containers
-        run: docker compose build
+    - name: Build containers
+      run: docker compose build
 
-      # Stack starten
-      - name: Start stack
-        run: docker compose up -d
+    - name: Start stack
+      run: docker compose up -d
 
-      # Backend testen
-      - name: Check backend
-        run: curl --fail http://localhost:3000/health
+    - name: Show container status
+      run: docker compose ps
 
-      # Frontend testen
-      - name: Check frontend
-        run: curl --fail http://localhost:8080
+    # WICHTIG: warten bis Backend wirklich ready ist
+    - name: Wait for backend
+      run: |
+        for i in {1..10}; do
+          curl --fail http://localhost:3000/health && exit 0
+          echo "Backend not ready yet, retrying..."
+          sleep 2
+        done
+        echo "Backend did not start in time"
+        exit 1
 
-      # Stack stoppen (auch bei Fehlern)
-      - name: Stop stack
-        if: always()
-        run: docker compose down
+    - name: Check backend status endpoint
+      run: curl --fail http://localhost:3000/api/status
+
+    - name: Check frontend
+      run: curl --fail http://localhost:8080
+
+    # Logs IMMER anzeigen (extrem wichtig für Debugging)
+    - name: Show logs
+      if: always()
+      run: docker compose logs
+
+    - name: Stop stack
+      if: always()
+      run: docker compose down

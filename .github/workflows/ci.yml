@@ -1,5 +1,9 @@
 name: CI Pipeline
 
+# Erzwingt die Nutzung von Node24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # Wann die Pipeline ausgelöst wird
 on:
   push:

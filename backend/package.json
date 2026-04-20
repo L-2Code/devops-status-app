@@ -4,20 +4,19 @@
   "description": "Backend for DevOps status app",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js", 
-    "dev": "node server.js",   
-    "lint": "eslint .",        
-    "test": "node --test" 
+    "start": "node server.js",
+    "dev": "node server.js",
+    "lint": "eslint .",
+    "test": "node --test"
   },
   "author": "Ilhan Yildiz",
   "license": "ISC",
-  "type": "commonjs"
-  ,
+  "type": "commonjs",
   "dependencies": {
     "express": "^5.2.1"
   },
-
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "eslint": "^9.0.0",
     "nodemon": "3.1.14"
   }

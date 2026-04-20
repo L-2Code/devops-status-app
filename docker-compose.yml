@@ -1,14 +1,28 @@
 services:
   backend:
-    build: ./backend
+    build: ./backend                      # baut Image aus Backend-Ordner (Dockerfile dort)
     container_name: devops-backend
+
+    environment: 
+      PORT: 3000                          # wird im server.js genutzt, Zugriff über diesen Port
+      APP_VERSION: "1.0.0"
+
     ports:
-      - "3000:3000"
+      - "3000:3000"                       # bindet Port 3000 des Containers an Port 3000 des Hosts (lokal erreichbar unter http://localhost:3000)
+
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]             # prüft den /health Endpoint, um zu sehen, ob die App läuft
+      interval: 30s                       # alle 30 Sekunden prüfen
+      timeout: 5s                        # Timeout für den Healthcheck
+      retries: 3                         # Anzahl der Fehlversuche, bevor der Container als "unhealthy" markiert wird
 
   frontend:
-    build: ./frontend
+    build: ./frontend             # Nginx + statisches HTML 
     container_name: devops-frontend
+
     ports:
-      - "8080:80"
+      - "8080:80"                         # bindet Port 80 des Containers an Port 8080 des Hosts (lokal erreichbar unter http://localhost:8080)
+
     depends_on:
-      - backend
+       backend:
+        condition: service_started          # wartet auf Backend-Start (nicht Health! - das könnte zu lange dauern, wenn die App erst hochfährt)

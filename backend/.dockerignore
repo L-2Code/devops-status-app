@@ -1,0 +1,12 @@
+# node_modules nicht mit ins Image kopieren da es im Container installiert wird
+node_modules
+
+# Logs und temporäre Dateien nicht mit ins Image kopieren
+npm-debug.log
+
+# Git-Daten nicht mit ins Image kopieren
+.git
+.github
+
+# Lokale Configs vermeiden (können sensible Daten enthalten)
+.env

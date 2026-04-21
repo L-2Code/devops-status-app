@@ -2,7 +2,6 @@
 
 [![CI Pipeline](https://github.com/L-2Code/devops-status-app/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/L-2Code/devops-status-app/actions/workflows/ci.yml)
 
-A containerized demo application showcasing a simple DevOps setup with a frontend served via Nginx, a backend API built with Express, and a CI pipeline using GitHub Actions.
 
 A containerized demo application showcasing a simple DevOps setup with a frontend served via Nginx, a backend API built with Express, and a CI pipeline using GitHub Actions.
 

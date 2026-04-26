@@ -3,32 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Status App</title>
-   <style>
+    <title>DevOps Status Dashboard</title>
+
+    <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
             max-width: 700px;
-            margin: 40px auto;
-            padding: 0 16px;
-            line-height: 1.5;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 24px;
         }
 
         .card {
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
         }
+
+        .status-box {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 10px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+        }
+
+        .status-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
         .status {
             font-weight: bold;
-            margin-top: 12px;
+            font-size: 18px;
         }
-   </style>
+
+        .tech-stack {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .footer {
+            margin-top: 18px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+    </style>
 </head>
 <body>
-    <h1>DevOps Status App</h1>
-    <div class="card">
-        <p>Kleines Demo-Projekt mit Node.js, Docker und CI/CD.</p>
-        <p class="status" id="status">Lade Status...</p>
+
+    <div class="container">
+        <h1>DevOps Status Dashboard</h1>
+        <p class="subtitle">
+            Demo-Projekt mit Node.js, Docker, Nginx und CI/CD
+        </p>
+
+        <div class="card">
+            <p>
+                Dieses Projekt demonstriert ein Multi-Container-Setup mit
+                Reverse Proxy, Backend API und automatisierter Bereitstellung
+                über GitHub Actions.
+            </p>
+
+            <div class="status-box">
+                <div class="status-label">
+                    Live System Status
+                </div>
+                <p class="status" id="status">
+                    Lade Status...
+                </p>
+            </div>
+
+            <div class="tech-stack">
+                Docker • Docker Compose • Nginx • Node.js • GitHub Actions
+            </div>
+
+            <div class="footer">
+                Status wird automatisch alle 30 Sekunden aktualisiert
+            </div>
+        </div>
     </div>
 
     <script>
@@ -37,17 +113,17 @@
                 const response = await fetch('/api/status');
                 const data = await response.json();
 
-                document.getElementById('status').textContent = `Aktueller Status: ${data.status} | Nachricht: ${data.message}`;
+                document.getElementById('status').textContent =
+                    `Systemstatus: ${data.status} | ${data.message}`;
             } catch (error) {
-                document.getElementById('status').textContent = 'Fehler beim Laden des Backend-Status';
+                document.getElementById('status').textContent =
+                    'Fehler beim Laden des Backend-Status';
             }
         }
 
-        // Initialer Aufruf zum Laden des Status
         fetchStatus();
-
-        // Aktualisiere den Status alle 30 Sekunden
         setInterval(fetchStatus, 30000);
     </script>
+
 </body>
 </html>
